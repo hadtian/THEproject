@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,7 +13,7 @@ using namespace std;
 
 const int MAX_WRONG = 7;
 
-/* ================= CLEAR SCREEN ================= */
+//clear screen
 void clearScreen() {
 #ifdef _WIN32
     system("cls");
@@ -23,7 +22,7 @@ void clearScreen() {
 #endif
 }
 
-/* ================= PLAY SOUND ================= */
+//pjay sound//
 void playSuccess() {
 #ifdef _WIN32
     Beep(1000, 150);
@@ -40,7 +39,7 @@ void playFail() {
 #endif
 }
 
-/* ================= MAIN MENU ================= */
+//main menu
 void showMainMenu() {
     clearScreen();
     cout << R"(                           
@@ -56,7 +55,7 @@ void showMainMenu() {
     cout << "\nChoose a category:\n";
 }
 
-/* ================= HANGMAN SCENES ================= */
+//hangman scenes
 vector<string> hangmanScenes = {
 R"(                                        ▄▄▄▄▄▄
                                              █
@@ -124,7 +123,7 @@ R"(                      _______________   ▄▄▄▄▄▄
 )"
 };
 
-/* ================= WORD BANK ================= */
+//word bank
 struct Category {
     string name;
     vector<string> words;
@@ -136,19 +135,19 @@ vector<Category> categories = {
     {"Fruits", {"banana", "avocado", "peach", "tangerine", "watermelon"}}
 };
 
-/* ================= DISPLAY LIVES ================= */
+//display lives
 void displayLives(int lives) {
     cout << "Lives: ";
     for (int i = 0; i < lives; i++)
-        cout << "❤️ ";
+        cout << "♥ ";
     cout << "\n\n";
 }
 
-/* ================= MAIN ================= */
+//main
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
 
-    // SHOW MAIN MENU
+    // main menu
     showMainMenu();
     for (size_t i = 0; i < categories.size(); i++) {
         cout << i + 1 << ". " << categories[i].name << "\n";
@@ -216,9 +215,9 @@ int main() {
     displayLives(MAX_WRONG - wrong);
 
     if (win)
-        cout << "\n🎉 YOU SURVIVED! THE WORD WAS: " << word << "\n";
+        cout << "\n YOU SURVIVED! THE WORD WAS: " << word << "\n";
     else
-        cout << "\n💀 GAME OVER! THE WORD WAS: " << word << "\n";
+        cout << "\n GAME OVER! THE WORD WAS: " << word << "\n";
 
     cout << "\nPress Enter to exit...";
     cin.ignore();
