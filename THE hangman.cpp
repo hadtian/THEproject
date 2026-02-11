@@ -1,12 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <ctime>
+#include <iostream>  // ورودی و خروجی
+#include <vector>  // وکتور 
+#include <string>  
+#include <ctime>  // گرفتن زمان برای رندوم بودن انتخاب
 #include <cstdlib>
-#include <algorithm>
+#include <algorithm>  
 
 #ifdef _WIN32
-#include <windows.h>
+#include <windows.h>  // صدا
 #endif
 
 using namespace std;
@@ -22,7 +22,7 @@ void clearScreen() {
 #endif
 }
 
-//pjay sound//
+//pjay sound
 void playSuccess() {
 #ifdef _WIN32
     Beep(1000, 150);
@@ -30,14 +30,14 @@ void playSuccess() {
     cout << "\a";
 #endif
 }
-
+// تابع در کتابخانه ویندوز، دو پارامتر دریافت میکند پارامتر اول فرکانس پارامتر دوم مدت زمان پخش صدا
 void playFail() {
 #ifdef _WIN32
     Beep(400, 300);
 #else
     cout << "\a";
 #endif
-}
+}  // این دوتا صدا خیلی باهم فرق ندارن باید بعدا ببینم چشه
 
 //main menu
 void showMainMenu() {
@@ -122,6 +122,7 @@ R"(                      _______________   ▄▄▄▄▄▄
 ░░░░░░█████████▐████▌█████████░░░░░░████████████░░░░░░░░░░░░░██░░░░░░░░░░░░░░░░░
 )"
 };
+// تابع R برای چاپ یه استرینگ بزرگ و طولانی همونطور که هسته تا برای رفتن به خط بعد یا اسپیس نیاز به /t و /n و اینا نباشه 
 
 //word bank
 struct Category {
@@ -152,14 +153,14 @@ int main() {
     for (size_t i = 0; i < categories.size(); i++) {
         cout << i + 1 << ". " << categories[i].name << "\n";
     }
-
-    int choice = 0;
+// به تعدا کتگوریا با فور شماره میزنه و اسم کتگوری رو کنار شماره مینویسه تا لیست بشه
+    int choice = 0; 
     while (true) {
         cout << "Enter 1-" << categories.size() << ": ";
         cin >> choice;
         if (choice >= 1 && choice <= static_cast<int>(categories.size())) break;
-    }
-
+    } 
+// میشد خیلی ساده توی سی‌اوت گیف از بین 1 تا 3 یکیو انتخاب کن چون تعداد کتگوریا مشخصن
     vector<string> words = categories[choice - 1].words;
     string word = words[rand() % words.size()];
     string hidden(word.size(), '_');
@@ -167,12 +168,12 @@ int main() {
     vector<char> used;
     int wrong = 0;
     bool win = false;
-
+// مقداردهی های اولیه
     while (wrong < MAX_WRONG) {
         clearScreen();
         cout << hangmanScenes[wrong] << "\n";
         displayLives(MAX_WRONG - wrong);
-
+// این میاد به تعداد اشتباها اول صفحه رو تمیز میکنه بعد صحنه متناسب با تعداد اشتباها رو میذاره و تعداد جونارو میچینه
         cout << "Category: " << categories[choice - 1].name << "\n";
         cout << "Word: ";
         for (char c : hidden) cout << c << ' ';
@@ -184,17 +185,17 @@ int main() {
         cin >> guess;
         guess = tolower(guess);
 
-        if (find(used.begin(), used.end(), guess) != used.end())
+        if (find(used.begin(), used.end(), guess) != used.end()) // چک کردن حروف وارد شده قبلی با پیمایش used که تکراری نباشن
             continue;
 
-        used.push_back(guess);
+        used.push_back(guess); // میره ته لیست used
 
         bool correct = false;
         for (size_t i = 0; i < word.size(); i++) {
             if (word[i] == guess) {
                 hidden[i] = guess;
                 correct = true;
-            }
+            } // دونه دونه حروف کلمه اصلی رو میگرده به ترتیب اگه حرف وارد شده باهاش یکی بود جایگزین میکنه با ایندکس متناسب توی وکتور hidden
         }
 
         if (correct)
@@ -207,8 +208,8 @@ int main() {
         if (hidden == word) {
             win = true;
             break;
-        }
-    }
+        } // برای وقتی که کلمه کامل حدس زده میشه
+    } // پایان وایل
 
     clearScreen();
     cout << hangmanScenes[wrong] << "\n";
